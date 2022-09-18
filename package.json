@@ -5,7 +5,8 @@
   "main": "\u001b[D\u001b[D\u001b[C\u001b[C",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.ts"
+    "dev": "nodemon index.ts",
+    "start": "pm2 start ts-node -- -P tsconfig.json index.ts"
   },
   "author": "",
   "license": "ISC",

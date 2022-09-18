@@ -13,6 +13,10 @@ app.use(cors())
 
 mongoose.connect('mongodb://localhost:27017/ticket-management-system')
 
+app.get('/v1/test',async(req:Request,res:Response)=>{
+    res.send("test success");
+})
+
 app.post('/api/v1/registerRootUser',async (req:Request,res:Response)=>{
     try {
         await User.create({
