@@ -17,7 +17,7 @@ app.get('/v1/test',async(req:Request,res:Response)=>{
     res.send("test success");
 })
 
-app.post('/api/v1/registerRootUser',async (req:Request,res:Response)=>{
+app.post('/v1/registerRootUser',async (req:Request,res:Response)=>{
     try {
         await User.create({
             username: req.body.username,
@@ -36,7 +36,7 @@ app.post('/api/v1/registerRootUser',async (req:Request,res:Response)=>{
     }
 })
 
-app.post('/api/v1/registerCustomer',async (req:Request,res:Response)=>{
+app.post('/v1/registerCustomer',async (req:Request,res:Response)=>{
     
     try {
         await User.create({
@@ -57,7 +57,7 @@ app.post('/api/v1/registerCustomer',async (req:Request,res:Response)=>{
     }
 })
 
-app.post('/api/v1/loginUser',async (req:Request,res:Response)=>{
+app.post('/v1/loginUser',async (req:Request,res:Response)=>{
     const user = await User.findOne({
         email:req.body.email,
         password:req.body.password
@@ -84,7 +84,7 @@ app.post('/api/v1/loginUser',async (req:Request,res:Response)=>{
 })
 
 
-app.get('/api/v1/getOrganizationsList',async (req:Request,res:Response)=>{
+app.get('/v1/getOrganizationsList',async (req:Request,res:Response)=>{
     try{
         const data = await rootUsers.find();
         const orgNames = data.map(i=>i.organizationName);
@@ -95,7 +95,7 @@ app.get('/api/v1/getOrganizationsList',async (req:Request,res:Response)=>{
     }
 })
 
-app.post('/api/v1/addNewTicket',async(req:Request,res:Response)=>{
+app.post('/v1/addNewTicket',async(req:Request,res:Response)=>{
     try{
         await tickets.create({
             organizationName:req.body.organizationName,
@@ -112,9 +112,9 @@ app.post('/api/v1/addNewTicket',async(req:Request,res:Response)=>{
     }
 })
 
-app.get('/api/v1/getUserTickets',getUserTickets)
+app.get('/v1/getUserTickets',getUserTickets)
 
-app.post('/api/v1/addEmployee',async(req:Request,res:Response)=>{
+app.post('/v1/addEmployee',async(req:Request,res:Response)=>{
     try{
         if(req.body.rootUser){
             const rootuser = await rootUsers.findOne({username:req.body.rootUser});
@@ -140,7 +140,7 @@ app.post('/api/v1/addEmployee',async(req:Request,res:Response)=>{
 })
 
 
-app.get('/api/v1/getAllTickets',async(req:Request,res:Response)=>{
+app.get('/v1/getAllTickets',async(req:Request,res:Response)=>{
     try{
         const org = await employees.findOne({"username":req.query.username})
         const data = await tickets.find({organizationName:org?.organizationName})
@@ -151,7 +151,7 @@ app.get('/api/v1/getAllTickets',async(req:Request,res:Response)=>{
     }
 })
 
-app.get('/api/v1/getAllEmployees',async(req:Request,res:Response)=>{
+app.get('/v1/getAllEmployees',async(req:Request,res:Response)=>{
     try{
         if(req.query.username){
             const rootuser = await rootUsers.findOne({username:req.query.username});
@@ -164,7 +164,7 @@ app.get('/api/v1/getAllEmployees',async(req:Request,res:Response)=>{
     }
 })
 
-app.get('/api/v1/closeCustomerTicket',async(req:Request,res:Response)=>{
+app.get('/v1/closeCustomerTicket',async(req:Request,res:Response)=>{
     try{
         await tickets.findOneAndUpdate(
             {_id:req.query.id},
@@ -179,7 +179,7 @@ app.get('/api/v1/closeCustomerTicket',async(req:Request,res:Response)=>{
     }
 })
 
-app.get('/api/v1/acceptTicket',async(req:Request,res:Response)=>{
+app.get('/v1/acceptTicket',async(req:Request,res:Response)=>{
     try{
         await tickets.findOneAndUpdate(
             {_id:req.query.id},
@@ -198,7 +198,7 @@ app.get('/api/v1/acceptTicket',async(req:Request,res:Response)=>{
     }
 })
 
-app.get('/api/v1/closeTicketEmployee',async(req:Request,res:Response)=>{
+app.get('/v1/closeTicketEmployee',async(req:Request,res:Response)=>{
     try{
         await tickets.findOneAndUpdate(
             {_id:req.query.id},
@@ -217,7 +217,7 @@ app.get('/api/v1/closeTicketEmployee',async(req:Request,res:Response)=>{
     }
 })
 
-app.get('/api/v1/getAllOrgTickets',async(req:Request,res:Response)=>{
+app.get('/v1/getAllOrgTickets',async(req:Request,res:Response)=>{
     try{
         const org = await rootUsers.findOne({"username":req.query.username})
         const data = await tickets.find({organizationName:org?.organizationName})
@@ -228,7 +228,7 @@ app.get('/api/v1/getAllOrgTickets',async(req:Request,res:Response)=>{
     }
 })
 
-app.put('/api/v1/editEmployee', async(req:Request,res:Response)=>{
+app.put('/v1/editEmployee', async(req:Request,res:Response)=>{
     // console.log(req.body)
     try{
         await employees.findByIdAndUpdate(req.body._id,{
@@ -249,7 +249,7 @@ app.put('/api/v1/editEmployee', async(req:Request,res:Response)=>{
     }
 })
 
-app.put('/api/v1/editCustomer', async(req:Request,res:Response)=>{
+app.put('/v1/editCustomer', async(req:Request,res:Response)=>{
     // console.log(req.body)
     try{
         await Customer.findOneAndUpdate(
