@@ -58,6 +58,7 @@ app.post('/v1/registerCustomer',async (req:Request,res:Response)=>{
 })
 
 app.post('/v1/loginUser',async (req:Request,res:Response)=>{
+    console.log(req.body);
     const user = await User.findOne({
         email:req.body.email,
         password:req.body.password
