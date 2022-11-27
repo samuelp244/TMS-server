@@ -37,7 +37,7 @@ app.post('/v1/registerRootUser',async (req:Request,res:Response)=>{
 })
 
 app.post('/v1/registerCustomer',async (req:Request,res:Response)=>{
-    
+    console.log(req.body);
     try {
         await User.create({
             username: req.body.username,
