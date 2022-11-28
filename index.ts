@@ -1,21 +1,33 @@
+// @ts-ignore
 import express, { Express, Request, Response } from 'express'
 import mongoose from 'mongoose';
 import cors from 'cors';
+import multer from "multer"
 import User from './models/user.model'
 import Customer from './models/customer.model'
 import rootUsers from "./models/rootUsers.model"
 import tickets from './models/tickets.model'
 import employees from "./models/employees.model"
 import { getUserTickets } from './Requests/customer';
+import { downloadHandler, listImagesHandler, uploadHandler } from './Requests/s3Handler';
+
 const app = express();
 app.use(express.json());
 app.use(cors())
 
 mongoose.connect('mongodb://localhost:27017/ticket-management-system')
 
+const upload = multer({dest:'uploads/'})
+
 app.get('/v1/test',async(req:Request,res:Response)=>{
     res.send("test success");
 })
+
+app.post('/uploadImage',upload.single('image'),uploadHandler);
+
+app.get('/images/:key',downloadHandler)
+
+app.get("/imagesList/:user",listImagesHandler)
 
 app.post('/v1/registerRootUser',async (req:Request,res:Response)=>{
     try {
