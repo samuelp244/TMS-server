@@ -14,10 +14,13 @@ import {
   listImagesHandler,
   uploadHandler,
 } from "./Requests/s3Handler";
+import fileUpload from "express-fileupload";
 
 const app = express();
+
 app.use(express.json());
 app.use(cors());
+app.use(fileUpload());
 
 mongoose.connect("mongodb://localhost:27017/ticket-management-system");
 
