@@ -9,6 +9,7 @@ import util from "util";
 const unlinkFile = util.promisify(fs.unlink);
 
 export const uploadHandler = async (req: Request, res: Response) => {
+    console.log(req)
   const file = req.file;
   const currDateTime = getDateTime();
   try {
