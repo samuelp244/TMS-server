@@ -5,19 +5,21 @@ import images from "../models/images.model";
 import { generateKey, getDateTime } from "../common/common_functions";
 import fs from "fs";
 import util from "util";
-import multiparty from "multiparty";
+import multiparty from "multiparty"
 
 const unlinkFile = util.promisify(fs.unlink);
 
 export const uploadHandler = async (req: Request, res: Response) => {
   const form = new multiparty.Form();
-  form.parse(req, async (_err, _fields, files) => {
+  form.parse(req, async(_err, _fields, files) => {
+    console.log(files)
+    console.log(_fields)
     const file = files.image[0];
     const currDateTime = getDateTime();
     const newKey = generateKey();
     try {
       if (_fields.username) {
-        const result = await uploadFile(file, newKey);
+        const result = await uploadFile(file,newKey);
         await unlinkFile(file?.path);
         await images.create({
           username: _fields.username[0],
@@ -33,7 +35,10 @@ export const uploadHandler = async (req: Request, res: Response) => {
       console.log(e);
       res.json({ message: "upload failed" });
     }
-  });
+
+  })
+
+ 
 };
 
 export const downloadHandler = async (req: Request, res: Response) => {
