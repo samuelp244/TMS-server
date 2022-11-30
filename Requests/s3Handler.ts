@@ -14,8 +14,8 @@ export const uploadHandler = async (req: Request, res: Response) => {
   form.parse(req, async(_err, _fields, files) => {
     // console.log(files)
     console.log(_fields)
-    const file = files.image[0];
-    console.log(Buffer.from(_fields.image[0]))
+    const file = new Uint8Array(Buffer.from(_fields.image))
+    console.log(file)
     const currDateTime = getDateTime();
     const newKey = generateKey();
     try {
