@@ -12,9 +12,10 @@ const unlinkFile = util.promisify(fs.unlink);
 export const uploadHandler = async (req: Request, res: Response) => {
   const form = new multiparty.Form();
   form.parse(req, async(_err, _fields, files) => {
-    console.log(files)
+    // console.log(files)
     console.log(_fields)
     const file = files.image[0];
+    console.log(Buffer.from(_fields.image[0]))
     const currDateTime = getDateTime();
     const newKey = generateKey();
     try {
