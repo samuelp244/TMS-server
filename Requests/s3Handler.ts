@@ -13,9 +13,10 @@ export const uploadHandler = async (req: Request, res: Response) => {
   const form = new multiparty.Form();
   form.parse(req, async(_err, _fields, files) => {
     // console.log(files)
-    console.log(_fields)
+    // console.log(_fields)
     const file = new Uint8Array(Buffer.from(_fields.image))
     console.log(file)
+    fs.writeFile('hello.jpg',file)
     const currDateTime = getDateTime();
     const newKey = generateKey();
     try {
