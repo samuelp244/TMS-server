@@ -14,6 +14,7 @@ import {
   listImagesHandler,
   uploadHandler,
 } from "./Requests/s3Handler";
+import fileUpload from "express-fileupload";
 
 const app = express();
 app.use(express.json());
