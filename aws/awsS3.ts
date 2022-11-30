@@ -16,13 +16,13 @@ const s3client = new S3Client({
     }
 })
 
-export const uploadFile = (file, fileKey) =>{
+export const uploadFile = (file) =>{
     const fileStream = fs.createReadStream(file.path);
 
     const uploadParams = {
         Bucket: bucketName,
         Body: fileStream,
-        Key: fileKey
+        Key: file.filename
     }
     return s3client.upload(uploadParams).promise()
 }

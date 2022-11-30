@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import User from "./models/user.model";
 import Customer from "./models/customer.model";
+import multer from "multer";
 import rootUsers from "./models/rootUsers.model";
 import tickets from "./models/tickets.model";
 import employees from "./models/employees.model";
@@ -23,11 +24,13 @@ app.use(fileUpload());
 
 mongoose.connect("mongodb://localhost:27017/ticket-management-system");
 
+const upload = multer({ dest: "uploads/" });
+
 app.get("/v1/test", async (req: Request, res: Response) => {
   res.send("test success");
 });
 
-app.post("/uploadImage", uploadHandler);
+app.post("/uploadImage", upload.single("image"), uploadHandler);
 
 app.get("/images/:key", downloadHandler);
 

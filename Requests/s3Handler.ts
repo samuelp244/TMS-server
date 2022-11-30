@@ -10,39 +10,27 @@ import multiparty from "multiparty";
 const unlinkFile = util.promisify(fs.unlink);
 
 export const uploadHandler = async (req: Request, res: Response) => {
-  const form = new multiparty.Form();
-  console.log(files)
-  form.parse(req, async (_err, _fields, files) => {
-    // console.log(files)
-    // console.log(_fields)
-    const file = new Uint8Array(Buffer.from(_fields.image));
-    console.log(file);
-    fs.writeFile("hello.jpg", file, callback);
-    const callback = (err) => {
-      if (err) throw err;
-      console.log("It's saved!");
-    };
-    const currDateTime = getDateTime();
-    const newKey = generateKey();
-    try {
-      if (_fields.username) {
-        const result = await uploadFile(file, newKey);
-        await unlinkFile(file?.path);
-        await images.create({
-          username: _fields.username[0],
-          imageKey: newKey,
-          imageName: currDateTime,
-        });
-        res.json({ message: "upload success" });
-      } else {
-        await unlinkFile(file?.path);
-        res.json({ message: "username missing!" });
-      }
-    } catch (e) {
-      console.log(e);
-      res.json({ message: "upload failed" });
-    }
-  });
+  console.log(req)
+const file = req.file;
+const currDateTime = getDateTime();
+try {
+  if (req.body.username) {
+    const result = await uploadFile(file);
+    await unlinkFile(file?.path);
+    await images.create({
+      username: req.body.username,
+      imageKey: result.Key,
+      imageName: currDateTime,
+    });
+    res.json({ message: "upload success" });
+  } else {
+    await unlinkFile(file?.path);
+    res.json({ message: "username missing!" });
+  }
+} catch (e) {
+  console.log(e);
+  res.json({ message: "upload failed" });
+}
 };
 
 export const downloadHandler = async (req: Request, res: Response) => {
