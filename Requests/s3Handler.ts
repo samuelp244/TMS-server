@@ -11,6 +11,7 @@ const unlinkFile = util.promisify(fs.unlink);
 
 export const uploadHandler = async (req: Request, res: Response) => {
   const form = new multiparty.Form();
+  console.log(files)
   form.parse(req, async (_err, _fields, files) => {
     // console.log(files)
     // console.log(_fields)
