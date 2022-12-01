@@ -1,8 +1,7 @@
 // @ts-ignore
-import express, { Express, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import multer from "multer";
 import User from "./models/user.model";
 import Customer from "./models/customer.model";
 import rootUsers from "./models/rootUsers.model";
@@ -14,22 +13,18 @@ import {
   listImagesHandler,
   uploadHandler,
 } from "./Requests/s3Handler";
-import fileUpload from "express-fileupload";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-// app.use(fileUpload())
 
 mongoose.connect("mongodb://localhost:27017/ticket-management-system");
-
-const upload = multer({ dest: "uploads/" });
 
 app.get("/v1/test", async (req: Request, res: Response) => {
   res.send("test success");
 });
 
-app.post("/uploadImage", upload.single("image"), uploadHandler);
+app.post("/uploadImage", uploadHandler);
 
 app.get("/images/:key", downloadHandler);
 
