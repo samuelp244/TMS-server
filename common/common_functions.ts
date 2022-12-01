@@ -1,19 +1,27 @@
 export const getDateTime = () => {
-  const dateTime = new Date();
+  const currentTime = new Date();
+  let currentOffset = currentTime.getTimezoneOffset();
+  let ISTOffset = 330; // IST offset UTC +5:30
+
+  let ISTTime = new Date(
+    currentTime.getTime() + (ISTOffset + currentOffset) * 60000
+  );
   const date =
-    dateTime.getFullYear() +
+    ISTTime.getFullYear() +
     "-" +
-    (dateTime.getMonth() + 1) +
+    (ISTTime.getMonth() + 1) +
     "-" +
-    dateTime.getDate();
+    ISTTime.getDate();
   const time =
-    dateTime.getHours() +
+    ISTTime.getHours() +
     ":" +
-    dateTime.getMinutes() +
+    ISTTime.getMinutes() +
     ":" +
-    dateTime.getSeconds();
+    ISTTime.getSeconds();
+
   return date + " " + time;
 };
+
 export const generateKey = () => {
   var result = "";
   var characters =
