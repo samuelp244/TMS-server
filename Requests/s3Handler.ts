@@ -39,8 +39,13 @@ export const uploadHandler = async (req: Request, res: Response) => {
 export const downloadHandler = async (req: Request, res: Response) => {
   const key = req.params.key;
   try {
-    const readStream = downloadFile(key);
-    readStream.pipe(res);
+    const keyData = images.find({ imageKey: key });
+    if ((await keyData).length === 1) {
+      const readStream = downloadFile(key);
+      readStream.pipe(res);
+    } else {
+      res.json({ message: "key does not exist!" });
+    }
   } catch (e) {
     res.json({ message: "invalid Key" });
   }
